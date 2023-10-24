@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -27,7 +29,7 @@ public class RegistrationService {
     @Autowired
     private UserUtility userUtility;
 
-    public ResponseEntity<String> register(UserRegistrationDTO userRegistrationDTO) throws NoSuchAlgorithmException {
+    public ResponseEntity<Map<String, String>> register(UserRegistrationDTO userRegistrationDTO) throws NoSuchAlgorithmException {
 
         //Convalida del DTO
         validationUtility.validateUserRegistrationDTO(userRegistrationDTO);
@@ -41,7 +43,9 @@ public class RegistrationService {
         try {
             User user = userUtility.createUserFromUserRegistrationDTO(userRegistrationDTO);
             userRepository.save(user);
-            return ResponseEntity.status(HttpStatus.OK).body("Registrazione avvenuta con successo");
+            Map<String, String> responseMap = new HashMap<>();
+            responseMap.put("message", "Registrazione avvenuta con successo");
+            return ResponseEntity.status(HttpStatus.OK).body(responseMap);
         } catch (NoSuchAlgorithmException e) {
             throw new NoSuchAlgorithmException("Qualcosa e andato storto");
         }
