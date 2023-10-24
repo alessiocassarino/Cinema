@@ -42,6 +42,10 @@ public class User {
     @JoinColumn(name = "customer_id")
     List<Ticket> ticketList = new ArrayList<>();
 
+    @OneToMany
+    @JoinColumn(name = "account_id")
+    List<AccessToken> tokenList;
+
     public User(){}
 
     public User(String name, String surname, String email,String phoneNumber, String password, Boolean isActive,

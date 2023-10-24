@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 
 import org.springframework.stereotype.Service;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
 
 @Service
@@ -26,22 +27,23 @@ public class RegistrationService {
     @Autowired
     private UserUtility userUtility;
 
-    public ResponseEntity<String> register(UserRegistrationDTO userRegistrationDTO)  {
+    public ResponseEntity<String> register(UserRegistrationDTO userRegistrationDTO) throws NoSuchAlgorithmException {
 
+        //Convalida del DTO
         validationUtility.validateUserRegistrationDTO(userRegistrationDTO);
-        String dtoEmail = userRegistrationDTO.getEmail();
 
-        Optional<User> findUserByEmail = userRepository.findByEmailAndIsActiveTrue(dtoEmail);
+        //Ricerca l'utente per email
+        Optional<User> findUserByEmail = userRepository.findByEmail(userRegistrationDTO.getEmail());
         if (findUserByEmail.isPresent()) {
-            throw new UserAlreadyExistsException("Lutente con email " + dtoEmail + " è già registrato");
+            throw new UserAlreadyExistsException("L'utente con email " + userRegistrationDTO.getEmail() + " è già registrato");
         }
 
-        Optional<User> user = userUtility.createUserFromUserRegistrationDTO(userRegistrationDTO);
-        if (user.isEmpty()) {
-            throw new IllegalArgumentException("Qualcosa è andato storto");
-        } else {
-            userRepository.save(user.get());
+        try {
+            User user = userUtility.createUserFromUserRegistrationDTO(userRegistrationDTO);
+            userRepository.save(user);
             return ResponseEntity.status(HttpStatus.OK).body("Registrazione avvenuta con successo");
+        } catch (NoSuchAlgorithmException e) {
+            throw new NoSuchAlgorithmException("Qualcosa e andato storto");
         }
     }
 }

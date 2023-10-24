@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
 @ControllerAdvice
@@ -20,6 +21,14 @@ public class HexceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(IllegalArgumentException.class)
     public Map<String, String> handleBookingOverlapException(IllegalArgumentException e) {
+        return Map.of(
+                MESSAGE_KEY, e.getMessage()
+        );
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(NoSuchAlgorithmException.class)
+    public Map<String, String> handleBookingOverlapException(NoSuchAlgorithmException e) {
         return Map.of(
                 MESSAGE_KEY, e.getMessage()
         );

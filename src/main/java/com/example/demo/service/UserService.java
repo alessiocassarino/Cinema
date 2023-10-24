@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
 
 @Service
@@ -18,9 +19,9 @@ public class UserService {
 
     @Autowired
     private UserUtility userUtility;
-    public ResponseEntity add(UserRegistrationDTO userRegistrationDTO) {
+    public ResponseEntity add(UserRegistrationDTO userRegistrationDTO) throws NoSuchAlgorithmException {
 
-        Optional<User> user = userUtility.createUserFromUserRegistrationDTO(userRegistrationDTO);
+        Optional<User> user = Optional.ofNullable(userUtility.createUserFromUserRegistrationDTO(userRegistrationDTO));
         if (user.isPresent()) {
             userRepository.save(user.get());
             return ResponseEntity.status(HttpStatus.OK).build();

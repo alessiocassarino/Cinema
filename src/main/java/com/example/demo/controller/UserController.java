@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.NoSuchAlgorithmException;
+
 @RestController
 @RequestMapping("/user/")
 public class UserController {
@@ -17,7 +19,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("add")
-    public ResponseEntity addUser(@RequestBody UserRegistrationDTO userRegistrationDTO) {
+    public ResponseEntity addUser(@RequestBody UserRegistrationDTO userRegistrationDTO) throws NoSuchAlgorithmException {
         return userService.add(userRegistrationDTO);
     }
 
