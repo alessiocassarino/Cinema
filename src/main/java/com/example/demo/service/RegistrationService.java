@@ -1,5 +1,8 @@
 package com.example.demo.service;
 
+import com.example.demo.model.AccessToken;
+import com.example.demo.repository.AccessTokenRepository;
+import com.example.demo.utility.AccessTokenUtility;
 import com.example.demo.utility.ValidationUtility;
 import com.example.demo.exception.UserAlreadyExistsException;
 import com.example.demo.model.User;
@@ -29,10 +32,18 @@ public class RegistrationService {
     @Autowired
     private UserUtility userUtility;
 
+    @Autowired
+    private AccessTokenUtility accessTokenUtility;
+
+    @Autowired
+    private AccessTokenRepository accessTokenRepository;
+
     public ResponseEntity<Map<String, String>> register(UserRegistrationDTO userRegistrationDTO) throws NoSuchAlgorithmException {
 
         //Convalida del DTO
         validationUtility.validateUserRegistrationDTO(userRegistrationDTO);
+
+        AccessToken accessToken = accessTokenUtility.getAccessToken(userRegistrationDTO.getEmail());
 
         //Ricerca l'utente per email
         Optional<User> findUserByEmail = userRepository.findByEmail(userRegistrationDTO.getEmail());
@@ -43,8 +54,11 @@ public class RegistrationService {
         try {
             User user = userUtility.createUserFromUserRegistrationDTO(userRegistrationDTO);
             userRepository.save(user);
+            accessToken.setUser(user);
+            accessTokenRepository.save(accessToken);
             Map<String, String> responseMap = new HashMap<>();
             responseMap.put("message", "Registrazione avvenuta con successo");
+            responseMap.put("token", accessToken.getValue());
             return ResponseEntity.status(HttpStatus.OK).body(responseMap);
         } catch (NoSuchAlgorithmException e) {
             throw new NoSuchAlgorithmException("Qualcosa e andato storto");
