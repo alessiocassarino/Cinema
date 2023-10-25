@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
 
 
 @Service
@@ -20,10 +22,12 @@ public class UserService {
 
 
 
-    public ResponseEntity<String> logout(LogoutDTO logoutDTO) {
+    public ResponseEntity<Map<String, String>> logout(LogoutDTO logoutDTO) {
 
+        Map<String, String> responseBody = new HashMap<>();
+        responseBody.put("message", "L'ogout effettuato");
         userUtility.setTokenToInactive(logoutDTO);
-        return ResponseEntity.status(HttpStatus.OK).body("L'ogout effettuato");
+        return ResponseEntity.status(HttpStatus.OK).body(responseBody);
 
     }
 }

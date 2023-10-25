@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/v1")
 public class UserController {
@@ -17,7 +19,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/logout")
-    public ResponseEntity<String> logout(@RequestBody LogoutDTO logoutDTO) {
+    public ResponseEntity<Map<String, String>> logout(@RequestBody LogoutDTO logoutDTO) {
         return userService.logout(logoutDTO);
     }
 
