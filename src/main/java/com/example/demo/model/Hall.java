@@ -1,12 +1,18 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 
 import java.util.List;
 
 @Entity
 @Table(name = "hall")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Hall {
 
     @Id
@@ -31,10 +37,4 @@ public class Hall {
     @OneToMany
     @JoinColumn(name = "scheduling_id")
     List<Scheduling> schedulingList;
-
-    @OneToMany
-    @JoinColumn(name = "hall_id")
-    List<Hall> hallList;
-
-    public Hall(){}
 }
