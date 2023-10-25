@@ -14,17 +14,4 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
  class FilmServiceTest {
 
-    @Autowired
-    private FilmService filmService;
-
-
-    @Test
-    void getAllFilmsTest() {
-
-        ResponseEntity<List<Film>> response = filmService.getAll();
-
-        List<Film> films = response.getBody();
-
-        films.forEach(System.out::println);
-    }
 }

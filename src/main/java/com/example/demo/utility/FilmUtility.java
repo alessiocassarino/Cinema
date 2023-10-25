@@ -4,13 +4,17 @@ import com.example.demo.exception.CategoryNotFoundException;
 import com.example.demo.model.Category;
 import com.example.demo.model.Film;
 import com.example.demo.model.dto.AddFilmDTO;
+import com.example.demo.model.dto.FilmDTO;
 import com.example.demo.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 public class FilmUtility {
@@ -42,5 +46,27 @@ public class FilmUtility {
                 .imageUrl(dto.getImageUrl())
                 .category(category.get())
                 .build();
+    }
+
+    public List<FilmDTO> createFilmDTOList(List<Film> filmList) {
+        return filmList.stream()
+                .map(film -> createFilmDTO(film))
+                .collect(Collectors.toList());
+    }
+
+    private FilmDTO createFilmDTO(Film film) {
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+        String parsedDuration = film.getDuration().format(timeFormatter);
+
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy");
+        String parsedYear = film.getYear().format(dateFormatter);
+        return FilmDTO.builder()
+                .name(film.getName())
+                .description(film.getDescription())
+                .actors(film.getActors())
+                .duration(parsedDuration)
+                .year(parsedYear)
+                .price(film.getPrice())
+                .categoryName(film.getCategory().getName()).build();
     }
 }
