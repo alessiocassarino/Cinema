@@ -1,7 +1,11 @@
 package com.example.demo.utility;
 
+import com.example.demo.model.AccessToken;
 import com.example.demo.model.User;
+import com.example.demo.model.dto.LogoutDTO;
 import com.example.demo.model.dto.UserRegistrationDTO;
+import com.example.demo.repository.AccessTokenRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.math.BigInteger;
@@ -12,6 +16,13 @@ import java.util.Optional;
 @Component
 public class UserUtility {
 
+    @Autowired
+    private AccessTokenRepository accessTokenRepository;
+
+    @Autowired
+    private ValidationUtility validationUtility;
+
+    private static final String SEPARATOR = ".";
     public User createUserFromUserRegistrationDTO(UserRegistrationDTO dto) throws NoSuchAlgorithmException {
 
         String hashedPassword = hashPassword(dto.getPassword());
@@ -22,6 +33,24 @@ public class UserUtility {
                 .phoneNumber(dto.getPhoneNumber())
                 .password(hashedPassword)
                 .isAdmin(false).build();
+    }
+
+    public void setTokenToInactive(LogoutDTO logoutDTO) {
+        if (logoutDTO == null) {
+            throw new IllegalArgumentException("Il dto non può essere null");
+        }
+
+        String tokenValue = logoutDTO.getToken();
+        validationUtility.validateToken(tokenValue);
+        String criptedUsername = logoutDTO.getToken().substring(13, 53);
+
+        Optional<AccessToken> accessToken = accessTokenRepository.findLastByValueContaining(criptedUsername);
+        if(accessToken.isEmpty()) {
+            throw new IllegalArgumentException("Il token inviato non è corretto");
+        }
+
+        accessToken.get().setIsActive(false);
+        accessTokenRepository.save(accessToken.get());
     }
 
     private String hashPassword(String plainText) throws NoSuchAlgorithmException {

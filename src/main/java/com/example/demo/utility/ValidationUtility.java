@@ -1,16 +1,20 @@
 package com.example.demo.utility;
 
+
 import com.example.demo.model.dto.UserRegistrationDTO;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
+
+
 
 @Component
 public class ValidationUtility {
 
+
     private static final EmailValidator EMAIL_VALIDATOR = EmailValidator.getInstance();
+
 
     public void validateUserRegistrationDTO(UserRegistrationDTO dto) {
 
@@ -55,4 +59,10 @@ public class ValidationUtility {
         return false;
     }
 
+
+    public void validateToken(String tokenValue) {
+        if (tokenValue == null || tokenValue.isEmpty()) {
+            throw new IllegalArgumentException("Il token deve essere valorizzato");
+        }
+    }
 }
