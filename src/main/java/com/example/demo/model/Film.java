@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 
 import java.time.LocalDate;
@@ -9,6 +10,11 @@ import java.util.List;
 
 @Entity
 @Table(name = "film")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Film {
 
     @Id
@@ -36,14 +42,15 @@ public class Film {
     @Column(name = "is_active")
     private Boolean isActive;
 
+    @Column(name = "image_url")
+    private String imageUrl;
+
     @ManyToOne
     private Category category;
 
     @OneToMany
     @JoinColumn(name = "film_id")
     private List<Scheduling> schedulingList;
-
-    public Film(){}
 
     @Override
     public String toString() {

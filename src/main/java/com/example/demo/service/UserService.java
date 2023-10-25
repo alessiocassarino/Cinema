@@ -48,25 +48,24 @@ public class UserService {
     }
 
     public ResponseEntity<Map<String, LoginResponseDTO>> login(LoginRequestDTO loginRequestDTO) throws NoSuchAlgorithmException {
+
         validationUtility.validateLoginRequestDTO(loginRequestDTO);
 
 
-            String hashPassword = userUtility.hashPassword(loginRequestDTO.getPassword());
+        String hashPassword = userUtility.hashPassword(loginRequestDTO.getPassword());
 
-            Optional<User> user = userRepository.findByEmailAndPasswordAndIsActiveTrue(loginRequestDTO.getEmail(), hashPassword);
-            if (user.isEmpty()) {
-                throw new UserNotFoundException();
-            }
-            AccessToken accessToken = accessTokenUtility.getAccessToken(loginRequestDTO.getEmail());
-            accessToken.setUser(user.get());
-            accessTokenRepository.save(accessToken);
+        Optional<User> user = userRepository.findByEmailAndPasswordAndIsActiveTrue(loginRequestDTO.getEmail(), hashPassword);
+        if (user.isEmpty()) {
+            throw new UserNotFoundException();
+        }
+        AccessToken accessToken = accessTokenUtility.getAccessToken(loginRequestDTO.getEmail());
+        accessToken.setUser(user.get());
+        accessTokenRepository.save(accessToken);
 
-            Map<String, LoginResponseDTO> responseMap = new HashMap<>();
+        Map<String, LoginResponseDTO> responseMap = new HashMap<>();
 
-            LoginResponseDTO loginResponseDTO = userUtility.createLoginResponseDTOFromUser(user.get(), accessToken.getValue());
-            responseMap.put("data", loginResponseDTO);
-            return ResponseEntity.status(HttpStatus.OK).body(responseMap);
-
-
+        LoginResponseDTO loginResponseDTO = userUtility.createLoginResponseDTOFromUser(user.get(), accessToken.getValue());
+        responseMap.put("data", loginResponseDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(responseMap);
     }
 }
