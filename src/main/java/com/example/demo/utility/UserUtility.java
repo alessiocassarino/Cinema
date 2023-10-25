@@ -2,6 +2,7 @@ package com.example.demo.utility;
 
 import com.example.demo.model.AccessToken;
 import com.example.demo.model.User;
+import com.example.demo.model.dto.LoginResponseDTO;
 import com.example.demo.model.dto.LogoutDTO;
 import com.example.demo.model.dto.UserRegistrationDTO;
 import com.example.demo.repository.AccessTokenRepository;
@@ -32,9 +33,19 @@ public class UserUtility {
                 .email(dto.getEmail())
                 .phoneNumber(dto.getPhoneNumber())
                 .password(hashedPassword)
+                .isActive(true)
                 .isAdmin(false).build();
     }
 
+    public LoginResponseDTO createLoginResponseDTOFromUser(User user, String token) {
+        return LoginResponseDTO.builder()
+                .token(token)
+                .name(user.getName())
+                .surname(user.getSurname())
+                .email(user.getEmail())
+                .phoneNumber(user.getPhoneNumber())
+                .build();
+    }
     public void setTokenToInactive(LogoutDTO logoutDTO) {
         if (logoutDTO == null) {
             throw new IllegalArgumentException("Il dto non può essere null");
@@ -53,7 +64,7 @@ public class UserUtility {
         accessTokenRepository.save(accessToken.get());
     }
 
-    private String hashPassword(String plainText) throws NoSuchAlgorithmException {
+    public String hashPassword(String plainText) throws NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance("MD5");
         byte[] messageDigest = md.digest(plainText.getBytes());
         BigInteger number = new BigInteger(1, messageDigest);
