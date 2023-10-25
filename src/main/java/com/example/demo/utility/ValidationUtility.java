@@ -22,7 +22,7 @@ public class ValidationUtility {
 
     public void validateUserRegistrationDTO(UserRegistrationDTO dto) {
 
-        validateUserRegistrationDTONameAndSurname(dto.getNome());
+        validateUserRegistrationDTONameAndSurname(dto.getName());
         validateUserRegistrationDTONameAndSurname(dto.getSurname());
         validateEmail(dto.getEmail());
         validatePassword(dto.getPassword());

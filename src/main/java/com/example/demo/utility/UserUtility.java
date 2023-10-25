@@ -28,7 +28,7 @@ public class UserUtility {
 
         String hashedPassword = hashPassword(dto.getPassword());
         return User.builder()
-                .name(dto.getNome())
+                .name(dto.getName())
                 .surname(dto.getSurname())
                 .email(dto.getEmail())
                 .phoneNumber(dto.getPhoneNumber())

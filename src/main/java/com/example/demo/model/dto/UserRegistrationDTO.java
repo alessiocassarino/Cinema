@@ -10,7 +10,7 @@ import lombok.Data;
 @Builder
 public class UserRegistrationDTO {
 
-    private String nome;
+    private String name;
     private String surname;
     private String email;
     private String phoneNumber;
