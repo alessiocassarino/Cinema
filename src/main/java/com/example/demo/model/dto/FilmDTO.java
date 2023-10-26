@@ -9,6 +9,8 @@ import lombok.*;
 @AllArgsConstructor
 public class FilmDTO {
 
+    private Long filmId;
+
     private String name;
 
     private String description;

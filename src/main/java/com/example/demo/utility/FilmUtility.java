@@ -13,8 +13,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Component
 public class FilmUtility {
@@ -57,7 +55,9 @@ public class FilmUtility {
 
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy");
         String parsedYear = film.getYear().format(dateFormatter);
+
         return FilmDTO.builder()
+                .filmId(film.getId())
                 .name(film.getName())
                 .description(film.getDescription())
                 .actors(film.getActors())
