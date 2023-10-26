@@ -42,10 +42,11 @@ public class RegistrationService {
         AccessToken accessToken = accessTokenUtility.getAccessToken(userRegistrationDTO.getEmail());
 
         //Ricerca l'utente per email
-        userRepository.findByEmail(userRegistrationDTO.getEmail())
-                .orElseThrow(() ->
-                        new UserAlreadyExistsException("L'utente con email " + userRegistrationDTO.getEmail() +
-                                " è già registrato"));
+        Optional<User> userExist = userRepository.findByEmail(userRegistrationDTO.getEmail());
+        if (userExist.isPresent()) {
+            throw new UserAlreadyExistsException("L'utente con email : " + userRegistrationDTO.getEmail());
+        }
+
 
         try {
             User user = userUtility.createUserFromUserRegistrationDTO(userRegistrationDTO);
