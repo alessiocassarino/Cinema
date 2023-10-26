@@ -19,9 +19,7 @@ public class ValidationUtility {
 
     private static final EmailValidator EMAIL_VALIDATOR = EmailValidator.getInstance();
 
-
     public void validateUserRegistrationDTO(UserRegistrationDTO dto) {
-
         validateUserRegistrationDTONameAndSurname(dto.getName());
         validateUserRegistrationDTONameAndSurname(dto.getSurname());
         validateEmail(dto.getEmail());
@@ -61,6 +59,7 @@ public class ValidationUtility {
         if (StringUtils.isBlank(duration)) {
             throw new IllegalArgumentException("La durata deve essere valorizzata");
         }
+
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
             LocalTime time = LocalTime.parse(duration, formatter);
@@ -101,13 +100,13 @@ public class ValidationUtility {
     }
 
     private void validateEmail(String email) {
-        if(email == null || email.isEmpty() || !EMAIL_VALIDATOR.isValid(email)) {
+        if (email == null || email.isEmpty() || !EMAIL_VALIDATOR.isValid(email)) {
             throw new IllegalArgumentException("Il campo email è errato");
         }
     }
 
     private void validatePassword(String password) {
-        if(password == null || password.isEmpty() || password.length() < 8 || !checkMaiuscLetterInPassword(password)) {
+        if (password == null || password.isEmpty() || password.length() < 8 || !checkMaiuscLetterInPassword(password)) {
             throw new IllegalArgumentException("La password è errata");
         }
     }
@@ -119,9 +118,9 @@ public class ValidationUtility {
     }
 
 
-    private Boolean checkMaiuscLetterInPassword(String password) {
+    private boolean checkMaiuscLetterInPassword(String password) {
         for (String c : password.split("")) {
-            if(c.equals(c.toUpperCase())) {
+            if (c.equals(c.toUpperCase())) {
                 return true;
             }
         }

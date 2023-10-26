@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/")
 public class SchedulingController {
-
     @Autowired
     private SchedulingService schedulingService;
     @PostMapping("newScheduling")

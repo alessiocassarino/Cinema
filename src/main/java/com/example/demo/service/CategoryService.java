@@ -22,10 +22,9 @@ public class CategoryService {
     public ResponseEntity<List<CategoryDTO>> getAll() {
         List<Category> categories = categoryRepository.findAll();
 
-        List<CategoryDTO> categoryDTOList =  categories.stream()
+        List<CategoryDTO> categoryDTOList = categories.stream()
                 .map(c -> categoryUtility.createCategoryDTO(c))
                 .toList();
-
         return ResponseEntity.status(HttpStatus.OK).body(categoryDTOList);
     }
 }

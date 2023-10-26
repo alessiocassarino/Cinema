@@ -51,18 +51,5 @@ public class Film {
     @OneToMany
     @JoinColumn(name = "film_id")
     private List<Scheduling> schedulingList;
-
-    @Override
-    public String toString() {
-        return "Film{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", actors='" + actors + '\'' +
-                ", duration=" + duration +
-                ", year=" + year +
-                ", price=" + price +
-                '}';
-    }
 }
 

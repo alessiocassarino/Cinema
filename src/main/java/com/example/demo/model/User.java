@@ -1,10 +1,7 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 
 import java.util.ArrayList;
@@ -14,6 +11,7 @@ import java.util.List;
 @Table(name = "user")
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 public class User {
@@ -49,8 +47,6 @@ public class User {
     @OneToMany
     @JoinColumn(name = "account_id")
     List<AccessToken> tokenList;
-
-    public User(){}
 
     public User(String name, String surname, String email,String phoneNumber, String password, Boolean isActive,
                 Boolean isAdmin) {

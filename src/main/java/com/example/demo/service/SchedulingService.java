@@ -34,12 +34,10 @@ public class SchedulingService {
 
     public ResponseEntity<String> addScheduling(AddSchedulingDTO dto) {
         String startTime = dto.getStartTime();
-
-        LocalDateTime creationDateTimeFormatted = schedulingUtility.getCreationDateTimeFormatted(startTime);
+        LocalDateTime startTimeFormatted = schedulingUtility.getCreationDateTimeFormatted(startTime);
         Film film = filmRepository.findById(dto.getFilmId()).orElseThrow(()-> new FilmNotFoundException("Film non trovato"));
         Hall hall = hallRepository.findById(dto.getHallId()).orElseThrow(()-> new HallNotFoundException("Sala non trovata"));
-
-        Scheduling scheduling = schedulingUtility.createScheduling(creationDateTimeFormatted, film, hall);
+        Scheduling scheduling = schedulingUtility.createScheduling(startTimeFormatted, film, hall);
         schedulingRepository.save(scheduling);
         return ResponseEntity.status(HttpStatus.OK).body("Scheduling inserita con successo");
     }

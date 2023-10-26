@@ -1,10 +1,16 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 
 @Entity
 @Table(name = "ticket")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Ticket {
 
     @Id
@@ -22,6 +28,4 @@ public class Ticket {
 
     @Column(name = "is_active")
     private Boolean isActive;
-
-    public Ticket(){}
 }

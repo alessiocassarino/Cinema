@@ -7,7 +7,6 @@ import lombok.Setter;
 @Setter
 public class AddFilmDTO {
 
-
     private String name;
 
     private String description;

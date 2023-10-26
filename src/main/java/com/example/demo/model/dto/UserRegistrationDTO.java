@@ -9,7 +9,6 @@ import lombok.Data;
 @Data
 @Builder
 public class UserRegistrationDTO {
-
     private String name;
     private String surname;
     private String email;

@@ -1,4 +1,5 @@
 package com.example.demo.service;
+
 import com.example.demo.exception.UserNotFoundException;
 import com.example.demo.model.AccessToken;
 import com.example.demo.model.User;
@@ -23,20 +24,16 @@ import java.util.Optional;
 
 @Service
 public class UserService {
-
     @Autowired
     private ValidationUtility validationUtility;
-
     @Autowired
     private UserUtility userUtility;
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private AccessTokenUtility accessTokenUtility;
     @Autowired
     private AccessTokenRepository accessTokenRepository;
-
 
     public ResponseEntity<Map<String, String>> logout(LogoutDTO logoutDTO) {
 
@@ -44,27 +41,24 @@ public class UserService {
         responseBody.put("message", "L'ogout effettuato");
         userUtility.setTokenToInactive(logoutDTO);
         return ResponseEntity.status(HttpStatus.OK).body(responseBody);
-
     }
 
-    public ResponseEntity<Map<String, LoginResponseDTO>> login(LoginRequestDTO loginRequestDTO) throws NoSuchAlgorithmException {
+    public ResponseEntity<Map<String, LoginResponseDTO>> login(LoginRequestDTO loginRequestDTO)
+            throws NoSuchAlgorithmException {
 
         validationUtility.validateLoginRequestDTO(loginRequestDTO);
 
-
         String hashPassword = userUtility.hashPassword(loginRequestDTO.getPassword());
+        User user = userRepository.findByEmailAndPasswordAndIsActiveTrue(loginRequestDTO.getEmail(), hashPassword)
+                .orElseThrow(UserNotFoundException::new);
 
-        Optional<User> user = userRepository.findByEmailAndPasswordAndIsActiveTrue(loginRequestDTO.getEmail(), hashPassword);
-        if (user.isEmpty()) {
-            throw new UserNotFoundException();
-        }
         AccessToken accessToken = accessTokenUtility.getAccessToken(loginRequestDTO.getEmail());
-        accessToken.setUser(user.get());
+        accessToken.setUser(user);
         accessTokenRepository.save(accessToken);
 
         Map<String, LoginResponseDTO> responseMap = new HashMap<>();
 
-        LoginResponseDTO loginResponseDTO = userUtility.createLoginResponseDTOFromUser(user.get(), accessToken.getValue());
+        LoginResponseDTO loginResponseDTO = userUtility.createLoginResponseDTOFromUser(user, accessToken.getValue());
         responseMap.put("data", loginResponseDTO);
         return ResponseEntity.status(HttpStatus.OK).body(responseMap);
     }

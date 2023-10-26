@@ -8,12 +8,10 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class LoginResponseDTO {
-
     private String token;
     private String name;
     private String surname;
     private String email;
     private String phoneNumber;
     private Boolean isAdmin;
-
 }

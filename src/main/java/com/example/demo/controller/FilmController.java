@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.Film;
+
 import com.example.demo.model.dto.AddFilmDTO;
 import com.example.demo.model.dto.FilmDTO;
 import com.example.demo.repository.FilmRepository;
@@ -14,10 +14,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/")
 public class FilmController {
-
     @Autowired
     private FilmService filmService;
-
     @Autowired
     private FilmRepository filmRepository;
 
@@ -30,6 +28,4 @@ public class FilmController {
     public ResponseEntity<List<FilmDTO>> getFilms() {
         return filmService.getFilms();
     }
-
-
 }

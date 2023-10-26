@@ -15,19 +15,15 @@ import java.util.List;
 
 @Service
 public class FilmService {
-
     @Autowired
     private FilmRepository filmRepository;
-
     @Autowired
     private ValidationUtility validationUtility;
-
     @Autowired
     private FilmUtility filmUtility;
+
     public ResponseEntity<String> addFilm(AddFilmDTO addFilmDTO) {
-
         validationUtility.validateAddFilmDTO(addFilmDTO);
-
         Film filmToAdd = filmUtility.createFilmFromAddFilmDTO(addFilmDTO);
         filmRepository.save(filmToAdd);
         return ResponseEntity.status(HttpStatus.OK).body("Film inserito");

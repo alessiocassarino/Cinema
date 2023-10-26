@@ -7,7 +7,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
@@ -49,11 +48,9 @@ public class AccessTokenUtility {
         ZoneId zoneId = ZoneId.of("Europe/Rome"); // Zona oraria dell'Italia
 
         LocalDateTime tokenCreationDateTime = instant.atZone(zoneId).toLocalDateTime();
-        AccessToken accessToken = createAccessToken(sb.toString(), tokenCreationDateTime);
-        return accessToken;
-
-
+        return createAccessToken(sb.toString(), tokenCreationDateTime);
     }
+
     private String encodeString(String stringToDecrypt) {
         return new String(Base64.encodeBase64(stringToDecrypt.getBytes()));
     }
@@ -66,5 +63,4 @@ public class AccessTokenUtility {
                 .isActive(true)
                 .build();
     }
-
 }

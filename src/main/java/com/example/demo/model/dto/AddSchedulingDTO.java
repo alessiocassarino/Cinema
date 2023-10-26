@@ -8,7 +8,6 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class AddSchedulingDTO {
-
     private Long filmId;
     private Long hallId;
     private String startTime;

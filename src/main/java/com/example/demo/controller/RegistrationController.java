@@ -12,7 +12,6 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/v1")
 public class RegistrationController {
-
     @Autowired
     private RegistrationService registrationService;
 

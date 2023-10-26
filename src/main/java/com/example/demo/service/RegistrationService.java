@@ -25,31 +25,27 @@ public class RegistrationService {
 
     @Autowired
     private ValidationUtility validationUtility;
-
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private UserUtility userUtility;
-
     @Autowired
     private AccessTokenUtility accessTokenUtility;
-
     @Autowired
     private AccessTokenRepository accessTokenRepository;
 
-    public ResponseEntity<Map<String, String>> register(UserRegistrationDTO userRegistrationDTO) throws NoSuchAlgorithmException {
-
+    public ResponseEntity<Map<String, String>> register(UserRegistrationDTO userRegistrationDTO)
+            throws NoSuchAlgorithmException {
         //Convalida del DTO
         validationUtility.validateUserRegistrationDTO(userRegistrationDTO);
 
         AccessToken accessToken = accessTokenUtility.getAccessToken(userRegistrationDTO.getEmail());
 
         //Ricerca l'utente per email
-        Optional<User> findUserByEmail = userRepository.findByEmail(userRegistrationDTO.getEmail());
-        if (findUserByEmail.isPresent()) {
-            throw new UserAlreadyExistsException("L'utente con email " + userRegistrationDTO.getEmail() + " è già registrato");
-        }
+        userRepository.findByEmail(userRegistrationDTO.getEmail())
+                .orElseThrow(() ->
+                        new UserAlreadyExistsException("L'utente con email " + userRegistrationDTO.getEmail() +
+                                " è già registrato"));
 
         try {
             User user = userUtility.createUserFromUserRegistrationDTO(userRegistrationDTO);

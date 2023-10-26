@@ -16,17 +16,16 @@ import java.util.Optional;
 
 @Component
 public class UserUtility {
-
     @Autowired
     private AccessTokenRepository accessTokenRepository;
 
     @Autowired
     private ValidationUtility validationUtility;
 
-    private static final String SEPARATOR = ".";
     public User createUserFromUserRegistrationDTO(UserRegistrationDTO dto) throws NoSuchAlgorithmException {
 
         String hashedPassword = hashPassword(dto.getPassword());
+
         return User.builder()
                 .name(dto.getName())
                 .surname(dto.getSurname())
@@ -47,6 +46,7 @@ public class UserUtility {
                 .isAdmin(user.getIsAdmin())
                 .build();
     }
+
     public void setTokenToInactive(LogoutDTO logoutDTO) {
         if (logoutDTO == null) {
             throw new IllegalArgumentException("Il dto non può essere null");
@@ -56,13 +56,11 @@ public class UserUtility {
         validationUtility.validateToken(tokenValue);
         String criptedUsername = logoutDTO.getToken().substring(13, 53);
 
-        Optional<AccessToken> accessToken = accessTokenRepository.findLastByValueContaining(criptedUsername);
-        if(accessToken.isEmpty()) {
-            throw new IllegalArgumentException("Il token inviato non è corretto");
-        }
+        AccessToken accessToken = accessTokenRepository.findLastByValueContaining(criptedUsername)
+                .orElseThrow(() -> new IllegalArgumentException("Il token inviato non è corretto"));
 
-        accessToken.get().setIsActive(false);
-        accessTokenRepository.save(accessToken.get());
+        accessToken.setIsActive(false);
+        accessTokenRepository.save(accessToken);
     }
 
     public String hashPassword(String plainText) throws NoSuchAlgorithmException {
