@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
 
 @Component
 public class FilmUtility {
-
     @Autowired
     private CategoryRepository categoryRepository;
 
@@ -27,10 +26,8 @@ public class FilmUtility {
 
     public Film createFilmFromAddFilmDTO(AddFilmDTO dto) {
 
-        Optional<Category> category = categoryRepository.findByNameAndIsActiveTrue(dto.getCategoryName());
-        if (category.isEmpty()) {
-            throw new CategoryNotFoundException("La categoria non esiste");
-        }
+        Category category = categoryRepository.findByNameAndIsActiveTrue(dto.getCategoryName())
+                .orElseThrow(() -> new CategoryNotFoundException("La categoria non esiste"));
 
         LocalDate year = parsingUtility.parseStringToLocalDateFormatYYYY(dto.getYear());
         LocalTime duration = parsingUtility.parseStringToLocalTimeFormatHHmm(dto.getDuration());
@@ -44,14 +41,14 @@ public class FilmUtility {
                 .price(dto.getPrice())
                 .isActive(true)
                 .imageUrl(dto.getImageUrl())
-                .category(category.get())
+                .category(category)
                 .build();
     }
 
     public List<FilmDTO> createFilmDTOList(List<Film> filmList) {
         return filmList.stream()
-                .map(film -> createFilmDTO(film))
-                .collect(Collectors.toList());
+                .map(this::createFilmDTO)
+                .toList();
     }
 
     private FilmDTO createFilmDTO(Film film) {
@@ -67,6 +64,7 @@ public class FilmUtility {
                 .duration(parsedDuration)
                 .year(parsedYear)
                 .price(film.getPrice())
-                .categoryName(film.getCategory().getName()).build();
+                .categoryName(film.getCategory().getName())
+                .imageUrl(film.getImageUrl()).build();
     }
 }

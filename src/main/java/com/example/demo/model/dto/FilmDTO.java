@@ -22,4 +22,6 @@ public class FilmDTO {
     private float price;
 
     private String categoryName;
+
+    private String imageUrl;
 }
