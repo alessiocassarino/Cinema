@@ -44,6 +44,7 @@ public class UserUtility {
                 .surname(user.getSurname())
                 .email(user.getEmail())
                 .phoneNumber(user.getPhoneNumber())
+                .isAdmin(user.getIsAdmin())
                 .build();
     }
     public void setTokenToInactive(LogoutDTO logoutDTO) {

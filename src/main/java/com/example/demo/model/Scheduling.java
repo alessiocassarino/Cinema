@@ -2,10 +2,17 @@ package com.example.demo.model;
 
 
 import jakarta.persistence.*;
+import lombok.*;
+
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "scheduling")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Scheduling {
 
     @Id
@@ -23,6 +30,4 @@ public class Scheduling {
 
     @ManyToOne
     private Hall hall;
-
-    public Scheduling(){}
 }

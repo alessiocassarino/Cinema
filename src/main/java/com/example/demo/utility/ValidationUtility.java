@@ -29,6 +29,11 @@ public class ValidationUtility {
         validateUserRegistrationDTOPhoneNumber(dto.getPhoneNumber());
     }
 
+    public void validateLoginRequestDTO(LoginRequestDTO dto) {
+        validateEmail(dto.getEmail());
+        validatePassword(dto.getPassword());
+    }
+
     public void validateAddFilmDTO(AddFilmDTO addFilmDTO) {
         if (addFilmDTO == null) {
             throw new IllegalArgumentException("AddFilmDTO can't be null");
@@ -38,6 +43,12 @@ public class ValidationUtility {
         validateAddFilmDTOPrice(addFilmDTO.getPrice());
         validateAddFilmImageUrl(addFilmDTO.getImageUrl());
         validateAddFilmDTODuration(addFilmDTO.getDuration());
+    }
+
+    public void validateToken(String tokenValue) {
+        if (tokenValue == null || tokenValue.isEmpty()) {
+            throw new IllegalArgumentException("Il token deve essere valorizzato");
+        }
     }
 
     private void validateAddFilmImageUrl(String imageUrl) {
@@ -83,11 +94,6 @@ public class ValidationUtility {
         }
     }
 
-    public void validateLoginRequestDTO(LoginRequestDTO dto) {
-        validateEmail(dto.getEmail());
-        validatePassword(dto.getPassword());
-    }
-
     private void validateUserRegistrationDTONameAndSurname(String name) {
         if (name.isEmpty() || name == null || name.length() > 100 || !StringUtils.isAlpha(name)) {
             throw new IllegalArgumentException("Il campo cognome è errato");
@@ -120,12 +126,5 @@ public class ValidationUtility {
             }
         }
         return false;
-    }
-
-
-    public void validateToken(String tokenValue) {
-        if (tokenValue == null || tokenValue.isEmpty()) {
-            throw new IllegalArgumentException("Il token deve essere valorizzato");
-        }
     }
 }
