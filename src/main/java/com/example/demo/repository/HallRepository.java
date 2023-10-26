@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface HallRepository extends JpaRepository<Hall, Long> {
     List<Hall> findAllByIsActiveTrue();
+
+    Long countByName(String name);
 }

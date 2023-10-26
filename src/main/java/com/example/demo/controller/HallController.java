@@ -1,12 +1,11 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.dto.AddHallDTO;
 import com.example.demo.model.dto.HallDTO;
 import com.example.demo.service.HallService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,5 +19,10 @@ public class HallController {
     @GetMapping("halls")
     public ResponseEntity<List<HallDTO>> getAll() {
         return hallService.getAll();
+    }
+
+    @PostMapping("newHall")
+    public ResponseEntity<String> newHall(@RequestBody AddHallDTO addHallDTO) {
+        return hallService.addHall(addHallDTO);
     }
 }

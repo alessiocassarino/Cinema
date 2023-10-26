@@ -1,10 +1,7 @@
 package com.example.demo.controller;
 
 
-import com.example.demo.exception.FilmNotFoundException;
-import com.example.demo.exception.HallNotFoundException;
-import com.example.demo.exception.UserAlreadyExistsException;
-import com.example.demo.exception.UserNotFoundException;
+import com.example.demo.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -64,6 +61,14 @@ public class HexceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(HallNotFoundException.class)
     public Map<String, String> handleBookingOverlapException(HallNotFoundException e) {
+        return Map.of(
+                MESSAGE_KEY, e.getMessage()
+        );
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(HallAlreadyExistException.class)
+    public Map<String, String> handleBookingOverlapException(HallAlreadyExistException e) {
         return Map.of(
                 MESSAGE_KEY, e.getMessage()
         );

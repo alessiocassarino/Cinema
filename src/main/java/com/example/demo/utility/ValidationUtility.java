@@ -2,6 +2,7 @@ package com.example.demo.utility;
 
 
 import com.example.demo.model.dto.AddFilmDTO;
+import com.example.demo.model.dto.AddHallDTO;
 import com.example.demo.model.dto.LoginRequestDTO;
 import com.example.demo.model.dto.UserRegistrationDTO;
 import org.apache.commons.lang3.StringUtils;
@@ -25,6 +26,15 @@ public class ValidationUtility {
         validateEmail(dto.getEmail());
         validatePassword(dto.getPassword());
         validateUserRegistrationDTOPhoneNumber(dto.getPhoneNumber());
+    }
+
+    public void validateAddHallDTO(AddHallDTO addHallDTO) {
+        if (addHallDTO == null) {
+            throw new IllegalArgumentException("Il dto non può essere null");
+        }
+
+        validateAddHallDTOName(addHallDTO.getName());
+        validateAddHallDTOSeats(addHallDTO.getSeats());
     }
 
     public void validateLoginRequestDTO(LoginRequestDTO dto) {
@@ -125,5 +135,17 @@ public class ValidationUtility {
             }
         }
         return false;
+    }
+
+    private void validateAddHallDTOName(String name) {
+        if (StringUtils.isBlank(name)) {
+            throw new IllegalArgumentException("Il campo name deve essere valorizzato");
+        }
+    }
+
+    private void validateAddHallDTOSeats(Integer seats) {
+        if (seats == null || seats.equals(0)) {
+            throw new IllegalArgumentException("I posti a sedere devono essere maggiori di 0");
+        }
     }
 }

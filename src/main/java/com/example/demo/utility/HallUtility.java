@@ -1,6 +1,7 @@
 package com.example.demo.utility;
 
 import com.example.demo.model.Hall;
+import com.example.demo.model.dto.AddHallDTO;
 import com.example.demo.model.dto.HallDTO;
 import org.springframework.stereotype.Component;
 
@@ -12,6 +13,15 @@ public class HallUtility {
        return hallList.stream()
                 .map(this::createHallDTO)
                 .toList();
+    }
+
+    public Hall createHallFromAddHallDTO(AddHallDTO addHallDTO) {
+        return Hall.builder()
+                .name(addHallDTO.getName())
+                .seats(addHallDTO.getSeats())
+                .quality(addHallDTO.getQuality())
+                .price(addHallDTO.getPrice())
+                .isActive(true).build();
     }
 
     private HallDTO createHallDTO(Hall hall) {
