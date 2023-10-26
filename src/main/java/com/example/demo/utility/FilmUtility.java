@@ -49,7 +49,7 @@ public class FilmUtility {
                 .toList();
     }
 
-    private FilmDTO createFilmDTO(Film film) {
+    protected FilmDTO createFilmDTO(Film film) {
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
         String parsedDuration = film.getDuration().format(timeFormatter);
 

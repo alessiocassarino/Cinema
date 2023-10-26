@@ -3,6 +3,7 @@ package com.example.demo.utility;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -29,4 +30,16 @@ public class ParsingUtility {
             throw new IllegalArgumentException("Impossibile parsare la durata : " + time);
         }
     }
+
+
+    public LocalDateTime parseStringToLocalDateTime(String dateTime) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        try {
+            return LocalDateTime.parse(dateTime, formatter);
+        } catch (DateTimeParseException e) {
+            return null;
+        }
+    }
+
+
 }

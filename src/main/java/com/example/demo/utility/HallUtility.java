@@ -24,7 +24,7 @@ public class HallUtility {
                 .isActive(true).build();
     }
 
-    private HallDTO createHallDTO(Hall hall) {
+    protected HallDTO createHallDTO(Hall hall) {
         return HallDTO.builder()
                 .id(hall.getId())
                 .name(hall.getName())

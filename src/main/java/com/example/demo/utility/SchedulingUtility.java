@@ -3,14 +3,25 @@ package com.example.demo.utility;
 import com.example.demo.model.Film;
 import com.example.demo.model.Hall;
 import com.example.demo.model.Scheduling;
+import com.example.demo.model.dto.FilmDTO;
+import com.example.demo.model.dto.HallDTO;
+import com.example.demo.model.dto.SchedulingDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.List;
 
 @Component
 public class SchedulingUtility {
+
+    @Autowired
+    private HallUtility hallUtility;
+
+    @Autowired
+    private FilmUtility filmUtility;
 
     public LocalDateTime getCreationDateTimeFormatted(String creationDateTime) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -27,6 +38,26 @@ public class SchedulingUtility {
                 .hall(hall)
                 .startTime(startTime)
                 .isActive(true)
+                .build();
+    }
+
+    public List<SchedulingDTO> createSchedulingDTOList(List<Scheduling> schedulingList) {
+        return schedulingList.stream()
+                .map(this::createSchedulingDTOFromScheduling)
+                .toList();
+    }
+
+    private SchedulingDTO createSchedulingDTOFromScheduling(Scheduling scheduling) {
+        HallDTO hallDTO = hallUtility.createHallDTO(scheduling.getHall());
+        FilmDTO filmDTO = filmUtility.createFilmDTO(scheduling.getFilm());
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        String parsedStartTime = scheduling.getStartTime().format(formatter);
+        return SchedulingDTO.builder()
+                .schedulingId(scheduling.getId())
+                .hallDTO(hallDTO)
+                .filmDTO(filmDTO)
+                .startTime(parsedStartTime)
                 .build();
     }
 }

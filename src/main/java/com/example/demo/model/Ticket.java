@@ -21,7 +21,7 @@ public class Ticket {
     private Float price;
 
     @ManyToOne
-    private User customer;
+    private User user;
 
     @ManyToOne
     private Hall hall;
