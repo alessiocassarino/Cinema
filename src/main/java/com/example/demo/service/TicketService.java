@@ -14,6 +14,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 public class TicketService {
     @Autowired
@@ -31,7 +34,7 @@ public class TicketService {
     @Autowired
     private TicketRepository ticketRepository;
 
-    public ResponseEntity<String> addTicket(AddTicketDTO addTicketDTO) {
+    public ResponseEntity<Map<String, String>> addTicket(AddTicketDTO addTicketDTO) {
         validationUtility.validateAddTicketDTO(addTicketDTO);
 
         User user = userRepository.findByEmail(addTicketDTO.getEmail()).orElseThrow(UserNotFoundException::new);
@@ -45,6 +48,8 @@ public class TicketService {
 
         Ticket ticket = ticketUtility.createTicket(user, filmPrice, hallPrice, scheduling);
         ticketRepository.save(ticket);
-        return ResponseEntity.status(HttpStatus.OK).body("Ticket creato con successo");
+        Map<String, String> mapToReturn = new HashMap<>();
+        mapToReturn.put("message", "Ticket creato con successo");
+        return ResponseEntity.status(HttpStatus.OK).body(mapToReturn);
     }
 }
