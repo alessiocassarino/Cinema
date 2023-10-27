@@ -51,7 +51,7 @@ public class AccessTokenUtility {
         return createAccessToken(sb.toString(), tokenCreationDateTime);
     }
 
-    private String encodeString(String stringToDecrypt) {
+    protected String encodeString(String stringToDecrypt) {
         return new String(Base64.encodeBase64(stringToDecrypt.getBytes()));
     }
 

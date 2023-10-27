@@ -54,7 +54,6 @@ public class SchedulingService {
             return ResponseEntity.status(HttpStatus.OK).body(schedulingDTOList);
 
         } else if (!filmId.isEmpty() && !startTime.isEmpty()) {
-
             LocalDateTime startTimeParsed = parsingUtility.parseStringToLocalDateTime(startTime);
             List<Scheduling> schedulingsFoundByStartFilmIdAndTime = schedulingRepository
                     .findByFilmIdAndStartTime(Long.valueOf(filmId),startTimeParsed);
@@ -63,11 +62,11 @@ public class SchedulingService {
             return ResponseEntity.status(HttpStatus.OK).body(schedulingDTOList);
 
         } else if (filmId.isEmpty()) {
-
             LocalDateTime startTimeParsed = parsingUtility.parseStringToLocalDateTime(startTime);
             List<Scheduling> schedulingsFoundByStartTime = schedulingRepository.findByStartTime(startTimeParsed);
             List<SchedulingDTO> schedulingDTOList = schedulingUtility.createSchedulingDTOList(schedulingsFoundByStartTime);
             return ResponseEntity.status(HttpStatus.OK).body(schedulingDTOList);
+
         } else {
             List<Scheduling> schedulingsFoundByFilmId = schedulingRepository.findByFilmId(Long.valueOf(filmId));
             List<SchedulingDTO> schedulingDTOList = schedulingUtility.createSchedulingDTOList(schedulingsFoundByFilmId);

@@ -66,6 +66,14 @@ public class HexceptionHandler {
         );
     }
 
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(SchedulingNotFoundException.class)
+    public Map<String, String> handleBookingOverlapException(SchedulingNotFoundException e) {
+        return Map.of(
+                MESSAGE_KEY, e.getMessage()
+        );
+    }
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(HallAlreadyExistException.class)
     public Map<String, String> handleBookingOverlapException(HallAlreadyExistException e) {

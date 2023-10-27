@@ -1,23 +1,26 @@
 package com.example.demo.utility;
 
 
-import com.example.demo.model.dto.AddFilmDTO;
-import com.example.demo.model.dto.AddHallDTO;
-import com.example.demo.model.dto.LoginRequestDTO;
-import com.example.demo.model.dto.UserRegistrationDTO;
+import com.example.demo.model.AccessToken;
+import com.example.demo.model.dto.*;
+import com.example.demo.repository.AccessTokenRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.validator.routines.EmailValidator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Optional;
 
 
 @Component
 public class ValidationUtility {
 
+    @Autowired
+    private AccessTokenRepository accessTokenRepository;
     private static final EmailValidator EMAIL_VALIDATOR = EmailValidator.getInstance();
 
     public void validateUserRegistrationDTO(UserRegistrationDTO dto) {
@@ -57,6 +60,35 @@ public class ValidationUtility {
         if (tokenValue == null || tokenValue.isEmpty()) {
             throw new IllegalArgumentException("Il token deve essere valorizzato");
         }
+    }
+
+    public void validateAddTicketDTO(AddTicketDTO addTicketDTO) {
+        validateAddTicketDTOToken(addTicketDTO.getToken());
+        validateAddTicketDTOUserEmail(addTicketDTO.getEmail());
+        validateSchedulingId(addTicketDTO.getSchedulingId());
+    }
+
+    private void validateSchedulingId(Long schedulingId) {
+        if (schedulingId == null || schedulingId <= 0) {
+            throw new IllegalArgumentException("L'id non valido");
+        }
+    }
+
+    private void validateAddTicketDTOUserEmail(String email) {
+        if (StringUtils.isBlank(email) || !EMAIL_VALIDATOR.isValid(email)) {
+            throw new IllegalArgumentException("Email non valida");
+        }
+    }
+
+    private void validateAddTicketDTOToken(String tokenValue) {
+        if (StringUtils.isBlank(tokenValue)) {
+            throw new IllegalArgumentException("Il token deve essere valorizzato");
+        }
+        Optional<AccessToken> accessToken = accessTokenRepository.findByValueAndIsActiveTrue(tokenValue);
+
+        if (accessToken.isEmpty())
+            throw new IllegalArgumentException("L'utente non è loggato");
+
     }
 
     private void validateAddFilmImageUrl(String imageUrl) {

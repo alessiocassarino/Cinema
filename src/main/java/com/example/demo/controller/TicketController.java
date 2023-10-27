@@ -16,12 +16,9 @@ public class TicketController {
     @Autowired
     private TicketService ticketService;
 
-    /*
+
     @PostMapping("newTicket")
     public ResponseEntity<String> addTicket(@RequestBody AddTicketDTO addTicketDTO) {
-
+        return ticketService.addTicket(addTicketDTO);
     }
-
-     */
-
 }

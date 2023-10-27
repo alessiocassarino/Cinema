@@ -14,4 +14,6 @@ public interface AccessTokenRepository extends JpaRepository<AccessToken, Long> 
     @Query("SELECT at FROM AccessToken at WHERE at.value LIKE %:value% AND at.isActive = TRUE " +
             "ORDER BY at.creationTokenDateTime DESC")
     Optional<AccessToken> findLastByValueContaining(@Param("value") String value);
+
+    Optional<AccessToken> findByValueAndIsActiveTrue(String value);
 }

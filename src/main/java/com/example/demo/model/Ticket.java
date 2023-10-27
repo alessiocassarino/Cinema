@@ -3,6 +3,8 @@ package com.example.demo.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 
 @Entity
 @Table(name = "ticket")
@@ -21,10 +23,10 @@ public class Ticket {
     private Float price;
 
     @ManyToOne
-    private User user;
+    Scheduling scheduling;
 
     @ManyToOne
-    private Hall hall;
+    private User user;
 
     @Column(name = "is_active")
     private Boolean isActive;
