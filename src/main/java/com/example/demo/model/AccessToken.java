@@ -30,11 +30,4 @@ public class AccessToken {
 
     @ManyToOne
     private User user;
-
-    public AccessToken(String value, LocalDateTime creationTokenDateTime, Boolean isActive, User user) {
-        this.value = value;
-        this.creationTokenDateTime = creationTokenDateTime;
-        this.isActive = isActive;
-        this.user = user;
-    }
 }

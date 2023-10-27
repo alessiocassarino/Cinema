@@ -2,6 +2,7 @@ package com.example.demo.repository;
 
 
 import com.example.demo.model.AccessToken;
+import com.example.demo.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -16,4 +17,8 @@ public interface AccessTokenRepository extends JpaRepository<AccessToken, Long> 
     Optional<AccessToken> findLastByValueContaining(@Param("value") String value);
 
     Optional<AccessToken> findByValueAndIsActiveTrue(String value);
+
+    @Query("SELECT t FROM AccessToken t " +
+            "WHERE t.value = :token AND t.isActive = TRUE")
+    Optional<AccessToken> findUserByValueAndIsActiveTrue(@Param("token") String token);
 }
