@@ -1,10 +1,7 @@
 package com.example.demo.service;
 
-
-import com.example.demo.exception.HallNotFoundException;
 import com.example.demo.exception.SchedulingNotFoundException;
 import com.example.demo.exception.UserNotFoundException;
-import com.example.demo.model.Hall;
 import com.example.demo.model.Scheduling;
 import com.example.demo.model.Ticket;
 import com.example.demo.model.User;
@@ -17,12 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-
-
 @Service
 public class TicketService {
-
     @Autowired
     private ValidationUtility validationUtility;
     @Autowired
@@ -41,7 +34,7 @@ public class TicketService {
     public ResponseEntity<String> addTicket(AddTicketDTO addTicketDTO) {
         validationUtility.validateAddTicketDTO(addTicketDTO);
 
-        User user = userRepository.findById(addTicketDTO.getUserId()).orElseThrow(UserNotFoundException::new);
+        User user = userRepository.findByEmail(addTicketDTO.getEmail()).orElseThrow(UserNotFoundException::new);
 
         Scheduling scheduling = schedulingRepository.findById(addTicketDTO.getSchedulingId())
                 .orElseThrow(() -> new SchedulingNotFoundException("Programmazione non trovata"));
