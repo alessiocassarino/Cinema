@@ -64,7 +64,7 @@ public class ValidationUtility {
 
     public void validateAddTicketDTO(AddTicketDTO addTicketDTO) {
         validateAddTicketDTOToken(addTicketDTO.getToken());
-        validateAddTicketDTOUserEmail(addTicketDTO.getEmail());
+        validateAddTicketDTOUserId(addTicketDTO.getUserId());
         validateSchedulingId(addTicketDTO.getSchedulingId());
     }
 
@@ -74,9 +74,9 @@ public class ValidationUtility {
         }
     }
 
-    private void validateAddTicketDTOUserEmail(String email) {
-        if (StringUtils.isBlank(email) || !EMAIL_VALIDATOR.isValid(email)) {
-            throw new IllegalArgumentException("Email non valida");
+    private void validateAddTicketDTOUserId(Long id) {
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("Id non valido");
         }
     }
 

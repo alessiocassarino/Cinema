@@ -9,6 +9,6 @@ import lombok.*;
 @Builder
 public class AddTicketDTO {
     private String token;
-    private String email;
+    private Long userId;
     private Long schedulingId;
 }

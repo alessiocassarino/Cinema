@@ -41,7 +41,7 @@ public class TicketService {
     public ResponseEntity<String> addTicket(AddTicketDTO addTicketDTO) {
         validationUtility.validateAddTicketDTO(addTicketDTO);
 
-        User user = userRepository.findByEmail(addTicketDTO.getEmail()).orElseThrow(UserNotFoundException::new);
+        User user = userRepository.findById(addTicketDTO.getUserId()).orElseThrow(UserNotFoundException::new);
 
         Scheduling scheduling = schedulingRepository.findById(addTicketDTO.getSchedulingId())
                 .orElseThrow(() -> new SchedulingNotFoundException("Programmazione non trovata"));
