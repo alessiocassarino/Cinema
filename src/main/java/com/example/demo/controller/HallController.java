@@ -22,7 +22,7 @@ public class HallController {
     }
 
     @PostMapping("newHall")
-    public ResponseEntity<String> newHall(@RequestBody AddHallDTO addHallDTO) {
+    public ResponseEntity<String> addHall(@RequestBody AddHallDTO addHallDTO) {
         return hallService.addHall(addHallDTO);
     }
 }

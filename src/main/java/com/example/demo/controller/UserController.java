@@ -15,13 +15,13 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @PostMapping("/logout")
+    @PostMapping("logout")
     public ResponseEntity<Map<String, String>> logout(@RequestBody LogoutDTO logoutDTO) {
         return userService.logout(logoutDTO);
     }

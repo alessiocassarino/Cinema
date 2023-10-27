@@ -10,13 +10,14 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/")
 public class RegistrationController {
     @Autowired
     private RegistrationService registrationService;
 
-    @PostMapping("/register")
-    public ResponseEntity<Map<String, String>> register(@RequestBody UserRegistrationDTO userRegistrationDTO) throws NoSuchAlgorithmException {
+    @PostMapping("register")
+    public ResponseEntity<Map<String, String>> register(@RequestBody UserRegistrationDTO userRegistrationDTO)
+            throws NoSuchAlgorithmException {
         return registrationService.register(userRegistrationDTO);
     }
 }
