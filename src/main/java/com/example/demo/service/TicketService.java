@@ -71,4 +71,14 @@ public class TicketService {
         List<TicketDTO> ticketDTOList = ticketUtility.createTicketDTOList(ticketList);
         return ResponseEntity.status(HttpStatus.OK).body(ticketDTOList);
     }
+
+    public ResponseEntity<Map<String, String>> deleteTicket(Long ticketId) {
+        if (ticketId == null || ticketId <= 0) {
+            throw new IllegalArgumentException("Il ticketId è errato");
+        }
+        ticketRepository.updateIsActiveToFalseById(ticketId);
+        Map<String, String> mapToReturn = new HashMap<>();
+        mapToReturn.put("message", "Ticket eliminata");
+        return ResponseEntity.status(HttpStatus.OK).body(mapToReturn);
+    }
 }

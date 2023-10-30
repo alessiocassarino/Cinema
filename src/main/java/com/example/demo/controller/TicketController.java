@@ -27,4 +27,9 @@ public class TicketController {
     public ResponseEntity<List<TicketDTO>> getAllTicketFromUser(@RequestParam(name = "token") String token) {
         return ticketService.getTicketsFromUser(token);
     }
+
+    @GetMapping("deleteTicket/{ticketId}")
+    public ResponseEntity<Map<String, String>> deleteTicket(@PathVariable Long ticketId) {
+        return ticketService.deleteTicket(ticketId);
+    }
 }
