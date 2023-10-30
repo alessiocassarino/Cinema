@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.model.Category;
+import com.example.demo.model.dto.AdminCategoryDTO;
 import com.example.demo.model.dto.CategoryDTO;
 import com.example.demo.repository.CategoryRepository;
 import com.example.demo.utility.CategoryUtility;
@@ -21,7 +22,7 @@ public class CategoryService {
     @Autowired
     private CategoryUtility categoryUtility;
 
-    public ResponseEntity<List<CategoryDTO>> getAll() {
+    public ResponseEntity<List<CategoryDTO>> getAllActiveCategories() {
         List<Category> categories = categoryRepository.findAll();
 
         List<CategoryDTO> categoryDTOList = categories.stream()
@@ -38,5 +39,12 @@ public class CategoryService {
         Map<String,String> responseMap = new HashMap<>();
         responseMap.put("message", "Categoria eliminata con successo");
         return ResponseEntity.status(HttpStatus.OK).body(responseMap);
+    }
+
+    public ResponseEntity<List<AdminCategoryDTO>> getAll() {
+
+        List<Category> categories = categoryRepository.findAll();
+        List<AdminCategoryDTO> adminCategoryDTOList = categoryUtility.createAdminCategoryDTOLIst(categories);
+        return ResponseEntity.status(HttpStatus.OK).body(adminCategoryDTOList);
     }
 }

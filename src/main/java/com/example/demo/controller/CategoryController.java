@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 
+import com.example.demo.model.dto.AdminCategoryDTO;
 import com.example.demo.model.dto.CategoryDTO;
 import com.example.demo.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +21,17 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
     @GetMapping("categories")
-    public ResponseEntity<List<CategoryDTO>> getAll() {
-        return categoryService.getAll();
+    public ResponseEntity<List<CategoryDTO>> getAllActiveCategories() {
+        return categoryService.getAllActiveCategories();
     }
 
     @GetMapping("deleteCategory/{categoryId}")
     public ResponseEntity<Map<String, String>> deleteCategory(@PathVariable Long categoryId) {
         return categoryService.deleteCategory(categoryId);
+    }
+
+    @GetMapping("categoriesAll")
+    public ResponseEntity<List<AdminCategoryDTO>> getAll() {
+        return categoryService.getAll();
     }
 }
