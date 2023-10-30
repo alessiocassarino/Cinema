@@ -3,7 +3,6 @@ package com.example.demo.controller;
 
 import com.example.demo.model.dto.AddFilmDTO;
 import com.example.demo.model.dto.FilmDTO;
-import com.example.demo.repository.FilmRepository;
 import com.example.demo.service.FilmService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +16,6 @@ import java.util.Map;
 public class FilmController {
     @Autowired
     private FilmService filmService;
-    @Autowired
-    private FilmRepository filmRepository;
 
     @PostMapping("newFilm")
     public ResponseEntity<String> addFilm(@RequestBody AddFilmDTO addFilmDTO) {
@@ -39,4 +36,5 @@ public class FilmController {
     public ResponseEntity<FilmDTO> getFilm(@PathVariable Long filmId) {
         return filmService.getFilm(filmId);
     }
+
 }

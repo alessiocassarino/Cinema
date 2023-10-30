@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/")
@@ -24,5 +25,10 @@ public class SchedulingController {
             @RequestParam(name = "filmId", defaultValue = "") String filmId,
             @RequestParam(name = "startTime", defaultValue = "") String startTime) {
         return schedulingService.getSchedulingsByFilmIdAndStartTime(filmId, startTime);
+    }
+
+    @GetMapping("deleteScheduling/{schedulingId}")
+    public ResponseEntity<Map<String, String>> deleteScheduling(@PathVariable Long schedulingId) {
+        return schedulingService.deleteScheduling(schedulingId);
     }
 }

@@ -18,7 +18,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Service
@@ -72,5 +74,17 @@ public class SchedulingService {
             List<SchedulingDTO> schedulingDTOList = schedulingUtility.createSchedulingDTOList(schedulingsFoundByFilmId);
             return ResponseEntity.status(HttpStatus.OK).body(schedulingDTOList);
         }
+    }
+
+    public ResponseEntity<Map<String, String>> deleteScheduling(Long schedulingId) {
+        if (schedulingId == null || schedulingId <= 0) {
+            throw new IllegalArgumentException("SchedulingId errato");
+        }
+
+        schedulingRepository.updateIsActiveToFalseById(schedulingId);
+        Map<String, String> responseMap = new HashMap<>();
+        responseMap.put("message", "Scheduling eliminata con successo");
+        return ResponseEntity.status(HttpStatus.OK).body(responseMap);
+
     }
 }
