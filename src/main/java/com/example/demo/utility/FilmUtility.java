@@ -4,6 +4,7 @@ import com.example.demo.exception.CategoryNotFoundException;
 import com.example.demo.model.Category;
 import com.example.demo.model.Film;
 import com.example.demo.model.dto.AddFilmDTO;
+import com.example.demo.model.dto.AdminFilmDTO;
 import com.example.demo.model.dto.FilmDTO;
 import com.example.demo.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,5 +67,32 @@ public class FilmUtility {
                 .price(film.getPrice())
                 .categoryName(film.getCategory().getName())
                 .imageUrl(film.getImageUrl()).build();
+    }
+
+    public List<AdminFilmDTO> createAdminFilmDTOList(List<Film> filmList) {
+        return filmList.stream()
+                .map(this::createAdminFilmDTO)
+                .toList();
+    }
+
+    private AdminFilmDTO createAdminFilmDTO(Film film) {
+        DateTimeFormatter durationFormatter = DateTimeFormatter.ofPattern("HH:mm");
+        DateTimeFormatter yearFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        String duration = film.getDuration().format(durationFormatter);
+        String year = film.getYear().format(yearFormatter);
+        String status = AdminUtility.getStatus(film.getIsActive());
+
+        return AdminFilmDTO.builder()
+                .filmId(film.getId())
+                .name(film.getName())
+                .description(film.getDescription())
+                .actors(film.getActors())
+                .duration(duration)
+                .year(year)
+                .price(film.getPrice())
+                .categoryName(film.getCategory().getName())
+                .imageUrl(film.getImageUrl())
+                .status(status).build();
     }
 }

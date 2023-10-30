@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 
 import com.example.demo.model.dto.AddFilmDTO;
+import com.example.demo.model.dto.AdminFilmDTO;
 import com.example.demo.model.dto.FilmDTO;
 import com.example.demo.service.FilmService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,11 @@ public class FilmController {
     @GetMapping("film/{filmId}")
     public ResponseEntity<FilmDTO> getFilm(@PathVariable Long filmId) {
         return filmService.getFilm(filmId);
+    }
+
+    @GetMapping("filmsAll")
+    public ResponseEntity<List<AdminFilmDTO>> getAllFilms() {
+        return filmService.getAllFilms();
     }
 
 }

@@ -22,14 +22,11 @@ public class CategoryUtility {
     }
 
     private AdminCategoryDTO createAdminCategoryDTO(Category c) {
-        String status = getStatus(c.getIsActive());
+        String status = AdminUtility.getStatus(c.getIsActive());
         return AdminCategoryDTO.builder()
                 .name(c.getName())
                 .status(status)
                 .build();
     }
 
-    private String getStatus(Boolean isActive) {
-        return isActive ? "attivo" : "inattivo";
-    }
 }

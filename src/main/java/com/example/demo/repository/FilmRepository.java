@@ -2,9 +2,11 @@ package com.example.demo.repository;
 
 import com.example.demo.model.Film;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,4 +22,9 @@ public interface FilmRepository extends JpaRepository<Film, Long> {
     String findNameById(Long filmId);
 
     Optional<Film> findByIdAndIsActiveTrue(Long filmId);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE Film f SET f.isActive = false WHERE f.id = :id")
+    void updateIsActiveToFalseById(@Param("id") Long id);
 }

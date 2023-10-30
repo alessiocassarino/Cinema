@@ -3,6 +3,7 @@ package com.example.demo.service;
 import com.example.demo.exception.FilmNotFoundException;
 import com.example.demo.model.Film;
 import com.example.demo.model.dto.AddFilmDTO;
+import com.example.demo.model.dto.AdminFilmDTO;
 import com.example.demo.model.dto.FilmDTO;
 import com.example.demo.repository.FilmRepository;
 import com.example.demo.utility.FilmUtility;
@@ -43,7 +44,7 @@ public class FilmService {
             throw new IllegalArgumentException("FilmId non valido");
         }
 
-        filmRepository.findById(filmId).ifPresent((t) ->t.setIsActive(false));
+        filmRepository.updateIsActiveToFalseById(filmId);
         Map<String, String> mapToReturn = new HashMap<>();
         mapToReturn.put("message", "Film eliminato");
         return ResponseEntity.status(HttpStatus.OK).body(mapToReturn);
@@ -59,5 +60,11 @@ public class FilmService {
 
         FilmDTO filmDTO = filmUtility.createFilmDTO(film);
         return ResponseEntity.status(HttpStatus.OK).body(filmDTO);
+    }
+
+    public ResponseEntity<List<AdminFilmDTO>> getAllFilms() {
+        List<Film> filmList = filmRepository.findAll();
+        List<AdminFilmDTO> adminFilmDTOList = filmUtility.createAdminFilmDTOList(filmList);
+        return ResponseEntity.status(HttpStatus.OK).body(adminFilmDTOList);
     }
 }
