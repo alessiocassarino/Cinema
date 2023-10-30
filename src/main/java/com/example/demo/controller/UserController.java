@@ -6,10 +6,7 @@ import com.example.demo.model.dto.LogoutDTO;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
@@ -29,6 +26,11 @@ public class UserController {
     @PostMapping("login")
     public ResponseEntity<Map<String, LoginResponseDTO>> login(@RequestBody LoginRequestDTO loginRequestDTO) throws NoSuchAlgorithmException {
         return userService.login(loginRequestDTO);
+    }
+
+    @GetMapping("deleteUser/{userId}")
+    public ResponseEntity<Map<String, String>> deleteUser(@PathVariable Long userId) {
+        return userService.deleteUser(userId);
     }
 
 }

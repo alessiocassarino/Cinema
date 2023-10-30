@@ -62,4 +62,14 @@ public class UserService {
         responseMap.put("data", loginResponseDTO);
         return ResponseEntity.status(HttpStatus.OK).body(responseMap);
     }
+
+    public ResponseEntity<Map<String, String>> deleteUser(Long userId) {
+        if (userId == null || userId <= 0) {
+            throw new IllegalArgumentException("L'userId è errato");
+        }
+        userRepository.updateIsActiveToFalseById(userId);
+        Map<String, String> mapToReturn = new HashMap<>();
+        mapToReturn.put("message", "User eliminata");
+        return ResponseEntity.status(HttpStatus.OK).body(mapToReturn);
+    }
 }
