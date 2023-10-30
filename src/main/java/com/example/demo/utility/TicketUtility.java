@@ -4,10 +4,7 @@ package com.example.demo.utility;
 import com.example.demo.model.Scheduling;
 import com.example.demo.model.Ticket;
 import com.example.demo.model.User;
-import com.example.demo.model.dto.FilmDTO;
-import com.example.demo.model.dto.HallDTO;
-import com.example.demo.model.dto.SchedulingDTO;
-import com.example.demo.model.dto.TicketDTO;
+import com.example.demo.model.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -38,8 +35,24 @@ public class TicketUtility {
 
     public List<TicketDTO> createTicketDTOList(List<Ticket> ticketList) {
         return ticketList.stream()
-                .map(t -> createTicketDTO(t))
+                .map(this::createTicketDTO)
                 .toList();
+    }
+
+    public List<AdminTicketDTO> createAdminTicketDTOList(List<Ticket> ticketList) {
+        return ticketList.stream()
+                .map(this::createAdminTicketDTO)
+                .toList();
+    }
+
+    private AdminTicketDTO createAdminTicketDTO(Ticket ticket) {
+        SchedulingDTO schedulingDTO = createSchedulingDTO(ticket);
+        String status = AdminUtility.getStatus(ticket.getIsActive());
+
+       return AdminTicketDTO.builder()
+                .price(ticket.getPrice())
+                .schedulingDTO(schedulingDTO)
+                .status(status).build();
     }
 
     private TicketDTO createTicketDTO(Ticket ticket) {
@@ -47,7 +60,6 @@ public class TicketUtility {
         Float priceFilm = ticket.getScheduling().getFilm().getPrice();
         Float priceHall = ticket.getScheduling().getHall().getPrice();
 
-        SchedulingDTO schedulingDTO = createSchedulingDTO(ticket);
         return TicketDTO.builder()
                 .price(priceFilm + priceHall)
                 .schedulingDTO(createSchedulingDTO(ticket))

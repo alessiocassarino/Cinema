@@ -7,6 +7,7 @@ import com.example.demo.model.Scheduling;
 import com.example.demo.model.Ticket;
 import com.example.demo.model.User;
 import com.example.demo.model.dto.AddTicketDTO;
+import com.example.demo.model.dto.AdminTicketDTO;
 import com.example.demo.model.dto.TicketDTO;
 import com.example.demo.repository.*;
 import com.example.demo.utility.TicketUtility;
@@ -80,5 +81,11 @@ public class TicketService {
         Map<String, String> mapToReturn = new HashMap<>();
         mapToReturn.put("message", "Ticket eliminata");
         return ResponseEntity.status(HttpStatus.OK).body(mapToReturn);
+    }
+
+    public ResponseEntity<List<AdminTicketDTO>> getAll() {
+        List<Ticket> ticketList = ticketRepository.findAll();
+        List<AdminTicketDTO> adminTicketDTOList = ticketUtility.createAdminTicketDTOList(ticketList);
+        return ResponseEntity.status(HttpStatus.OK).body(adminTicketDTOList);
     }
 }
