@@ -2,6 +2,7 @@ package com.example.demo.utility;
 
 import com.example.demo.model.Hall;
 import com.example.demo.model.dto.AddHallDTO;
+import com.example.demo.model.dto.AdminHallDTO;
 import com.example.demo.model.dto.HallDTO;
 import org.springframework.stereotype.Component;
 
@@ -24,6 +25,12 @@ public class HallUtility {
                 .isActive(true).build();
     }
 
+    public List<AdminHallDTO> createAdminHallDTOList(List<Hall> hallList) {
+        return hallList.stream()
+                .map(hall -> createAdminHallDTO(hall))
+                .toList();
+    }
+
     protected HallDTO createHallDTO(Hall hall) {
         return HallDTO.builder()
                 .id(hall.getId())
@@ -31,4 +38,15 @@ public class HallUtility {
                 .price(hall.getPrice())
                 .build();
     }
+
+    private AdminHallDTO createAdminHallDTO(Hall hall) {
+        String status = AdminUtility.getStatus(hall.getIsActive());
+        return AdminHallDTO.builder()
+                .id(hall.getId())
+                .name(hall.getName())
+                .price(hall.getPrice())
+                .status(status).build();
+    }
+
+
 }

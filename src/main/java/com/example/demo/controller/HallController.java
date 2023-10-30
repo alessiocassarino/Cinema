@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.dto.AddHallDTO;
+import com.example.demo.model.dto.AdminHallDTO;
 import com.example.demo.model.dto.HallDTO;
 import com.example.demo.service.HallService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,4 +32,11 @@ public class HallController {
     public ResponseEntity<Map<String, String>> deleteHall(@PathVariable Long hallId) {
         return hallService.deleteHall(hallId);
     }
+
+    //Servizio per recuperare tutte le hall, sia attive che inattive
+    @GetMapping("findHalls")
+    public ResponseEntity<List<AdminHallDTO>> findHalls() {
+        return hallService.findHalls();
+    }
+
 }

@@ -3,6 +3,7 @@ package com.example.demo.service;
 import com.example.demo.exception.HallAlreadyExistException;
 import com.example.demo.model.Hall;
 import com.example.demo.model.dto.AddHallDTO;
+import com.example.demo.model.dto.AdminHallDTO;
 import com.example.demo.model.dto.HallDTO;
 import com.example.demo.repository.HallRepository;
 import com.example.demo.utility.HallUtility;
@@ -52,5 +53,11 @@ public class HallService {
         Map<String, String> mapToReturn = new HashMap<>();
         mapToReturn.put("message", "Hall eliminata");
         return ResponseEntity.status(HttpStatus.OK).body(mapToReturn);
+    }
+
+    public ResponseEntity<List<AdminHallDTO>> findHalls() {
+        List<Hall> hallList = hallRepository.findAll();
+        List<AdminHallDTO> adminHallDTOList = hallUtility.createAdminHallDTOList(hallList);
+        return ResponseEntity.status(HttpStatus.OK).body(adminHallDTOList);
     }
 }
