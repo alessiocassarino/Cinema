@@ -6,6 +6,7 @@ import com.example.demo.model.Film;
 import com.example.demo.model.Hall;
 import com.example.demo.model.Scheduling;
 import com.example.demo.model.dto.AddSchedulingDTO;
+import com.example.demo.model.dto.AdminSchedulingDTO;
 import com.example.demo.model.dto.SchedulingDTO;
 import com.example.demo.repository.FilmRepository;
 import com.example.demo.repository.HallRepository;
@@ -84,5 +85,11 @@ public class SchedulingService {
         Map<String, String> responseMap = new HashMap<>();
         responseMap.put("message", "Scheduling eliminata con successo");
         return ResponseEntity.status(HttpStatus.OK).body(responseMap);
+    }
+
+    public ResponseEntity<List<AdminSchedulingDTO>> getAll() {
+        List<Scheduling> schedulingList = schedulingRepository.findAll();
+        List<AdminSchedulingDTO> adminSchedulingDTOList = schedulingUtility.createAdminSchedulingDTOList(schedulingList);
+        return ResponseEntity.status(HttpStatus.OK).body(adminSchedulingDTOList);
     }
 }

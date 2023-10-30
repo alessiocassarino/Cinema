@@ -3,6 +3,7 @@ package com.example.demo.utility;
 import com.example.demo.model.Film;
 import com.example.demo.model.Hall;
 import com.example.demo.model.Scheduling;
+import com.example.demo.model.dto.AdminSchedulingDTO;
 import com.example.demo.model.dto.FilmDTO;
 import com.example.demo.model.dto.HallDTO;
 import com.example.demo.model.dto.SchedulingDTO;
@@ -45,6 +46,29 @@ public class SchedulingUtility {
         return schedulingList.stream()
                 .map(this::createSchedulingDTOFromScheduling)
                 .toList();
+    }
+
+    public List<AdminSchedulingDTO> createAdminSchedulingDTOList(List<Scheduling> schedulingList) {
+        return schedulingList.stream()
+                .map(scheduling -> createAdminSchedulingDTO(scheduling))
+                .toList();
+    }
+
+    private AdminSchedulingDTO createAdminSchedulingDTO(Scheduling scheduling) {
+        HallDTO hallDTO = hallUtility.createHallDTO(scheduling.getHall());
+        FilmDTO filmDTO = filmUtility.createFilmDTO(scheduling.getFilm());
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        String startTime = scheduling.getStartTime().format(formatter);
+
+        String status = AdminUtility.getStatus(scheduling.getIsActive());
+
+        return AdminSchedulingDTO.builder()
+                .schedulingId(scheduling.getId())
+                .hallDTO(hallDTO)
+                .filmDTO(filmDTO)
+                .startTime(startTime)
+                .status(status).build();
     }
 
     private SchedulingDTO createSchedulingDTOFromScheduling(Scheduling scheduling) {

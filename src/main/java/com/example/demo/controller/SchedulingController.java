@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.dto.AddSchedulingDTO;
+import com.example.demo.model.dto.AdminSchedulingDTO;
 import com.example.demo.model.dto.SchedulingDTO;
 import com.example.demo.service.SchedulingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,5 +31,10 @@ public class SchedulingController {
     @GetMapping("deleteScheduling/{schedulingId}")
     public ResponseEntity<Map<String, String>> deleteScheduling(@PathVariable Long schedulingId) {
         return schedulingService.deleteScheduling(schedulingId);
+    }
+
+    @GetMapping("schedulingsAll")
+    public ResponseEntity<List<AdminSchedulingDTO>> getAll() {
+        return schedulingService.getAll();
     }
 }
