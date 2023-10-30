@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/")
@@ -24,5 +25,10 @@ public class HallController {
     @PostMapping("newHall")
     public ResponseEntity<String> addHall(@RequestBody AddHallDTO addHallDTO) {
         return hallService.addHall(addHallDTO);
+    }
+
+    @GetMapping("deleteHall/{hallId}")
+    public ResponseEntity<Map<String, String>> deleteHall(@PathVariable Long hallId) {
+        return hallService.deleteHall(hallId);
     }
 }

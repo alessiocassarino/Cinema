@@ -12,7 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class HallService {
@@ -39,5 +41,16 @@ public class HallService {
         Hall hall = hallUtility.createHallFromAddHallDTO(addHallDTO);
         hallRepository.save(hall);
         return ResponseEntity.status(HttpStatus.OK).body("Sala aggiunta con successo");
+    }
+
+    public ResponseEntity<Map<String, String>> deleteHall(Long hallId) {
+        if (hallId == null || hallId <= 0) {
+            throw new IllegalArgumentException("HallId è errato");
+        }
+
+        hallRepository.updateIsActiveToFalseById(hallId);
+        Map<String, String> mapToReturn = new HashMap<>();
+        mapToReturn.put("message", "Hall eliminata");
+        return ResponseEntity.status(HttpStatus.OK).body(mapToReturn);
     }
 }
