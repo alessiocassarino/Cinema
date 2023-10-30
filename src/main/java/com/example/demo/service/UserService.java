@@ -6,6 +6,7 @@ import com.example.demo.model.User;
 import com.example.demo.model.dto.LoginRequestDTO;
 import com.example.demo.model.dto.LoginResponseDTO;
 import com.example.demo.model.dto.LogoutDTO;
+import com.example.demo.model.dto.UserDTO;
 import com.example.demo.repository.AccessTokenRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.utility.AccessTokenUtility;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -71,5 +73,11 @@ public class UserService {
         Map<String, String> mapToReturn = new HashMap<>();
         mapToReturn.put("message", "User eliminata");
         return ResponseEntity.status(HttpStatus.OK).body(mapToReturn);
+    }
+
+    public ResponseEntity<List<UserDTO>> getAll() {
+        List<User> userList = userRepository.findAllByIsAdminFalse();
+        List<UserDTO> userDTOList = userUtility.createUserDTOList(userList);
+        return ResponseEntity.status(HttpStatus.OK).body(userDTOList);
     }
 }

@@ -4,6 +4,7 @@ import com.example.demo.model.AccessToken;
 import com.example.demo.model.User;
 import com.example.demo.model.dto.LoginResponseDTO;
 import com.example.demo.model.dto.LogoutDTO;
+import com.example.demo.model.dto.UserDTO;
 import com.example.demo.model.dto.UserRegistrationDTO;
 import com.example.demo.repository.AccessTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Component;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 
 @Component
@@ -45,6 +47,22 @@ public class UserUtility {
                 .phoneNumber(user.getPhoneNumber())
                 .isAdmin(user.getIsAdmin())
                 .build();
+    }
+
+    public List<UserDTO> createUserDTOList(List<User> userList) {
+        return userList.stream()
+                .map(this::createUserDTO)
+                .toList();
+    }
+
+    private UserDTO createUserDTO(User user) {
+        String status = AdminUtility.getStatus(user.getIsActive());
+        return UserDTO.builder()
+                .name(user.getName())
+                .surname(user.getSurname())
+                .email(user.getEmail())
+                .phoneNumber(user.getPhoneNumber())
+                .status(status).build();
     }
 
     public void setTokenToInactive(LogoutDTO logoutDTO) {
