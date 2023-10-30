@@ -58,19 +58,19 @@ public class SchedulingService {
         } else if (!filmId.isEmpty() && !startTime.isEmpty()) {
             LocalDateTime startTimeParsed = parsingUtility.parseStringToLocalDateTime(startTime);
             List<Scheduling> schedulingsFoundByStartFilmIdAndTime = schedulingRepository
-                    .findByFilmIdAndStartTime(Long.valueOf(filmId),startTimeParsed);
+                    .findByFilmIdAndStartTimeAndIsActiveTrue(Long.valueOf(filmId),startTimeParsed);
 
             List<SchedulingDTO> schedulingDTOList = schedulingUtility.createSchedulingDTOList(schedulingsFoundByStartFilmIdAndTime);
             return ResponseEntity.status(HttpStatus.OK).body(schedulingDTOList);
 
         } else if (filmId.isEmpty()) {
             LocalDateTime startTimeParsed = parsingUtility.parseStringToLocalDateTime(startTime);
-            List<Scheduling> schedulingsFoundByStartTime = schedulingRepository.findByStartTime(startTimeParsed);
+            List<Scheduling> schedulingsFoundByStartTime = schedulingRepository.findByStartTimeAndIsActiveTrue(startTimeParsed);
             List<SchedulingDTO> schedulingDTOList = schedulingUtility.createSchedulingDTOList(schedulingsFoundByStartTime);
             return ResponseEntity.status(HttpStatus.OK).body(schedulingDTOList);
 
         } else {
-            List<Scheduling> schedulingsFoundByFilmId = schedulingRepository.findByFilmId(Long.valueOf(filmId));
+            List<Scheduling> schedulingsFoundByFilmId = schedulingRepository.findByFilmIdAndIsActiveTrue(Long.valueOf(filmId));
             List<SchedulingDTO> schedulingDTOList = schedulingUtility.createSchedulingDTOList(schedulingsFoundByFilmId);
             return ResponseEntity.status(HttpStatus.OK).body(schedulingDTOList);
         }
@@ -80,11 +80,9 @@ public class SchedulingService {
         if (schedulingId == null || schedulingId <= 0) {
             throw new IllegalArgumentException("SchedulingId errato");
         }
-
         schedulingRepository.updateIsActiveToFalseById(schedulingId);
         Map<String, String> responseMap = new HashMap<>();
         responseMap.put("message", "Scheduling eliminata con successo");
         return ResponseEntity.status(HttpStatus.OK).body(responseMap);
-
     }
 }

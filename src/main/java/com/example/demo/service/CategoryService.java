@@ -9,7 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CategoryService {
@@ -26,5 +28,15 @@ public class CategoryService {
                 .map(c -> categoryUtility.createCategoryDTO(c))
                 .toList();
         return ResponseEntity.status(HttpStatus.OK).body(categoryDTOList);
+    }
+
+    public ResponseEntity<Map<String, String>> deleteCategory(Long categoryId) {
+        if (categoryId == null || categoryId <= 0) {
+            throw new IllegalArgumentException("Il categoryId è errato");
+        }
+        categoryRepository.updateIsActiveToFalseById(categoryId);
+        Map<String,String> responseMap = new HashMap<>();
+        responseMap.put("message", "Categoria eliminata con successo");
+        return ResponseEntity.status(HttpStatus.OK).body(responseMap);
     }
 }

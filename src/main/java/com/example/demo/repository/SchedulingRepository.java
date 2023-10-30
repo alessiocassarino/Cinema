@@ -15,14 +15,14 @@ import java.util.List;
 @Repository
 public interface SchedulingRepository extends JpaRepository<Scheduling, Long> {
     
-    List<Scheduling> findByFilmIdAndStartTime(@Param("filmId") Long filmId, @Param("startTime") LocalDateTime startTime);
+    List<Scheduling> findByFilmIdAndStartTimeAndIsActiveTrue(@Param("filmId") Long filmId, @Param("startTime") LocalDateTime startTime);
 
 
-    List<Scheduling> findByStartTime(LocalDateTime startTimeParsed);
+    List<Scheduling> findByStartTimeAndIsActiveTrue(LocalDateTime startTimeParsed);
 
     List<Scheduling> findAllByIsActiveTrue();
 
-    List<Scheduling> findByFilmId(Long filmId);
+    List<Scheduling> findByFilmIdAndIsActiveTrue(Long filmId);
 
     @Modifying
     @Transactional
